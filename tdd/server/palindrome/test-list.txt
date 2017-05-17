@@ -1,0 +1,5 @@
+"mom" is a palindrome
+"dad" is a palindrome
+"dude" is not a palindrome
+"mom mom" is a palindrome
+"mom dad" is not a palindrome

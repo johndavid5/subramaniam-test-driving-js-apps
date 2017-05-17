@@ -1,5 +1,5 @@
 {
-  "name": "palindrome",
+  "name": "sample",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,14 +7,12 @@
     "test": "test"
   },
   "scripts": {
-	"//":  "NOTE: Gotta use _mocha rather than mocha with Istanbul...",
-    "test": "istanbul cover node_modules/mocha/bin/_mocha"
+    "test": "mocha"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "chai": "^3.5.0",
-    "istanbul": "^0.4.4",
-    "mocha": "^3.0.1"
+    "mocha": "^3.4.1"
   }
 }
