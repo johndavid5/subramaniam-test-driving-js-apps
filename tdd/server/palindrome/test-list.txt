@@ -3,3 +3,5 @@
 "dude" is not a palindrome
 "mom mom" is a palindrome
 "mom dad" is not a palindrome
+"" (empty string) is not a palindrome
+"  " (two spaces) is not a palindrome

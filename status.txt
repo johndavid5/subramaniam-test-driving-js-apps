@@ -1,17 +1,11 @@
 On branch master
+Your branch is up-to-date with 'origin/master'.
 Changes to be committed:
   (use "git reset HEAD <file>..." to unstage)
 
-	new file:   notes.txt
-	new file:   status.bat
-	new file:   status.txt
-	new file:   tdd/sample/install.bat
-	new file:   tdd/sample/package.json
-	modified:   tdd/sample/src/util.js
-	modified:   tdd/sample/test/util_test.js
-	modified:   tdd/server/palindrome/package.json
+	modified:   status.txt
 	modified:   tdd/server/palindrome/src/palindrome.js
-	new file:   tdd/server/palindrome/test-list.txt
+	modified:   tdd/server/palindrome/test-list.txt
 	modified:   tdd/server/palindrome/test/palindrome-test.js
 
 Changes not staged for commit:
@@ -23,5 +17,6 @@ Changes not staged for commit:
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
 
-	add_em.bat
+	tdd/server/palindrome/coverage/
+	tdd/server/palindrome/n.bat
 

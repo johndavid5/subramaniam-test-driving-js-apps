@@ -81,4 +81,56 @@ describe('palindrome-test-suite', function palindromeTestSuite(){
 		// Assert...
 		expect(bIsPalindromeOutput).to.be.false;
 	});
+
+	// Negative Test...
+	it('should return false for argument "" (empty string)', function(){
+		// 3-A's Pattern...
+
+		// Arrange...
+		var sInput = ''; // empty string
+		
+		// Act...
+		var bIsPalindromeOutput = isPalindrome(sInput);
+		
+		// Assert...
+		expect(bIsPalindromeOutput).to.be.false;
+	});
+
+
+	// Negative Test...
+	it('should return false for argument "  " (two spaces)', function(){
+		// 3-A's Pattern...
+
+		// Arrange...
+		var sInput = '  '; // two spaces
+		
+		// Act...
+		var bIsPalindromeOutput = isPalindrome(sInput);
+		
+		// Assert...
+		expect(bIsPalindromeOutput).to.be.false;
+	});
+
+	// Exception Test: should throw an exception...
+	it('should throw an exception if argument is missing', function(){
+
+		var call = function(){
+			isPalindrome();
+		};
+		
+		// Assert...
+		//expect(call).to.throw(Error, 'Invalid argument');
+		expect(call).to.throw(Error, /invalid argument/i);
+	});
+
+	it('should throw an exception if argument is null', function(){
+
+		var call = function(){
+			isPalindrome(null);
+		};
+		
+		// Assert...
+		//expect(call).to.throw(Error, 'Invalid argument');
+		expect(call).to.throw(Error, /invalid argument/i);
+	});
 });
