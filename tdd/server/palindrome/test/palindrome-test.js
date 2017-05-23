@@ -111,26 +111,26 @@ describe('palindrome-test-suite', function palindromeTestSuite(){
 		expect(bIsPalindromeOutput).to.be.false;
 	});
 
-	// Exception Test: should throw an exception...
-	it('should throw an exception if argument is missing', function(){
+ // Exception Test: should throw an exception...
+ it('should throw an exception if argument is missing', function(){
 
-		var call = function(){
-			isPalindrome();
-		};
+ 	var call = function(){
+ 		isPalindrome();
+ 	};
+ 	
+ 	// Assert...
+ 	//expect(call).to.throw(Error, 'Invalid argument');
+ 	expect(call).to.throw(Error, /invalid argument/i);
+ });
+
+ it('should throw an exception if argument is null', function(){
+
+	var call = function(){
+		isPalindrome(null);
+	};
 		
-		// Assert...
-		//expect(call).to.throw(Error, 'Invalid argument');
-		expect(call).to.throw(Error, /invalid argument/i);
-	});
-
-	it('should throw an exception if argument is null', function(){
-
-		var call = function(){
-			isPalindrome(null);
-		};
-		
-		// Assert...
-		//expect(call).to.throw(Error, 'Invalid argument');
-		expect(call).to.throw(Error, /invalid argument/i);
-	});
+	// Assert...
+	//expect(call).to.throw(Error, 'Invalid argument');
+	expect(call).to.throw(Error, /invalid argument/i);
+ });
 });
