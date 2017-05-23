@@ -19,3 +19,6 @@ git add tdd/client/palindrome/src/palindrome.js
 git add tdd/client/palindrome/test/palindrome-test.js
 git add tdd/client/palindrome/karma-init.bat
 git add tdd/client/palindrome/karma.conf.js
+
+git add async/files/test/files-test.js
+
