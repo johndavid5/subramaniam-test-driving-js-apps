@@ -3,6 +3,9 @@ git add add_em.bat
 git add notes.txt
 git add status.bat
 
+git add async/files/test/files-test.js
+git add async/geolocation/test/fetch-test.js
+
 git add tdd/sample/src/util.js
 git add tdd/sample/test/util_test.js
 git add tdd/sample/install.bat
@@ -20,5 +23,4 @@ git add tdd/client/palindrome/test/palindrome-test.js
 git add tdd/client/palindrome/karma-init.bat
 git add tdd/client/palindrome/karma.conf.js
 
-git add async/files/test/files-test.js
 
