@@ -1,26 +1,31 @@
-git add .gitignore
-git add add_em.bat
-git add notes.txt
-git add status.bat
+call git add .gitignore
+call git add add_em.bat
+call git add notes.txt
+call git add status.bat
 
-git add async/files/test/files-test.js
-git add async/geolocation/test/fetch-test.js
+call git add async/files/test/files-test.js
+call git add async/geolocation/test/fetch-test.js
+call git add async/promises/test/files-test.js
+call git add async/promises/n.bat
+call git add async/promises/src/files-john.js
+call git add async/promises/src/files-retro.js
+call git add async/promises/test/files-retro-test.js
 
-git add tdd/sample/src/util.js
-git add tdd/sample/test/util_test.js
-git add tdd/sample/install.bat
-git add tdd/sample/package.json
+call git add tdd/sample/src/util.js
+call git add tdd/sample/test/util_test.js
+call git add tdd/sample/install.bat
+call git add tdd/sample/package.json
 
-git add tdd/server/palindrome/package.json
-git add tdd/server/palindrome/n.bat
-git add tdd/server/palindrome/src/palindrome.js
-git add tdd/server/palindrome/test/palindrome-test.js
-git add tdd/server/palindrome/test-list.txt
+call git add tdd/server/palindrome/package.json
+call git add tdd/server/palindrome/n.bat
+call git add tdd/server/palindrome/src/palindrome.js
+call git add tdd/server/palindrome/test/palindrome-test.js
+call git add tdd/server/palindrome/test-list.txt
 
-git add tdd/client/palindrome/package.json
-git add tdd/client/palindrome/src/palindrome.js
-git add tdd/client/palindrome/test/palindrome-test.js
-git add tdd/client/palindrome/karma-init.bat
-git add tdd/client/palindrome/karma.conf.js
+call git add tdd/client/palindrome/package.json
+call git add tdd/client/palindrome/src/palindrome.js
+call git add tdd/client/palindrome/test/palindrome-test.js
+call git add tdd/client/palindrome/karma-init.bat
+call git add tdd/client/palindrome/karma.conf.js
 
 
