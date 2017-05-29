@@ -1,2 +1,31 @@
 Chapter 2:
 Mantra of TDD: "Red, green, refactor..."
+
+Chapter 4: Tactfully Tackle Dependencies 
+Test Doubles: Fakes vs. Stubs vs. Mocks vs. Spies.
+
+1. Fakes: Implementations suitable for testing, but not for production. 
+   e.g., Credit card processing services offer two services,
+   one for production use and fake for use during testing.
+
+2. Stubs: These are not real implementations but may readily
+   return canned responses when called.
+
+3. Mocks: Are like stubs in that they may return canned
+   values, however they keep track of interactions...
+   they tattletale about interactions and help verify
+   communication between the code being tested and its
+   dependencies.
+
+4. Spies: Unlike the other three, spies stand as proxies
+   in front of the actual dependency.  They may interact
+   with the real service while stubbing or mocking out
+   some select parts.  These are useful when interaction
+   with the actual service during testing is not an issue
+   but we still want to verify the interactions or mock
+   out select parts...
+
+You'd use stubs to verify state while you'd use mocks
+to verify behavior.
+
+

@@ -28,4 +28,14 @@ call git add tdd/client/palindrome/test/palindrome-test.js
 call git add tdd/client/palindrome/karma-init.bat
 call git add tdd/client/palindrome/karma.conf.js
 
+call git add tackle/spike/index.html
+call git add tackle/spike/src/locateme.js
 
+call git add tackle/locateme/src/locateme.js
+call git add tackle/locateme/test/create-url-test.js
+call git add tackle/locateme/test/locate-test.js
+call git add tackle/locateme/test/onerror-test.js
+call git add tackle/locateme/test/onsuccess-test.js
+call git add tackle/locateme/test/setlocation-test.js
+call git add tackle/locateme/test/sinon-setup.js
+call git add tackle/locateme/n.bat
