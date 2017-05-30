@@ -39,3 +39,6 @@ call git add tackle/locateme/test/onsuccess-test.js
 call git add tackle/locateme/test/setlocation-test.js
 call git add tackle/locateme/test/sinon-setup.js
 call git add tackle/locateme/n.bat
+
+call git add testnode/stockfetch/src/stockfetch.js
+call git add testnode/stockfetch/test/stockfetch-test.js
