@@ -1,0 +1,19 @@
+read() invokes processTickers() if the file is valid
+
+read invokes an error handler if the file is invalid
+
+processTickers calls getPrice for each ticker symbol
+
+getPrice calls the web service
+
+For valid response, getPrice updates the prices collection
+
+For failed response, getPrice updates the errors collection
+
+getPrice calls printReport in the end
+
+printReport prints the results in sorted order
+
+Subramaniam, Venkat.
+Test-Driving JavaScript Applications: Rapid, Confident, Maintainable Code
+(Kindle Locations 2960-2967). Pragmatic Bookshelf. Kindle Edition. 
