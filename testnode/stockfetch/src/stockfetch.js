@@ -26,7 +26,7 @@ Stockfetch.prototype.readTickersFile = function(filename, onError){
 	fs.readFile(filename, processResponse);
 };
  
-Stockfetch.prototype.parseTickers = function(rawData){
+Stockfetch.prototype.parseTickersJohn = function(rawData){
 
 	rawData = rawData.trim(); // Covers white-space-only situation, and makes for cleaner output...
 
@@ -57,6 +57,33 @@ Stockfetch.prototype.parseTickers = function(rawData){
 	* array is returned.
 	*/
 };
+
+/* Don't be so smart, Spock, you botched the Acetylcholine test...! */
+/* Nice try, Venkat, but this code allows Blah to get through even
+ * though it's not in ALL-CAPS
+*/
+Stockfetch.prototype.parseTickersVenkat = function(rawData){
+	var isInRightFormat = function(str){
+		return str.trim().length !== 0
+			&& str.indexOf(' ') < 0;
+	};
+
+	return rawData.split('\n').filter(isInRightFormat);
+};
+   
+
+Stockfetch.prototype.parseTickersVenkatJohn = function(rawData){
+	var isInRightFormat = function(str){
+		return str.trim().length !== 0
+			&& str.indexOf(' ') < 0
+			&& str.toUpperCase() == str
+	};
+
+	return rawData.split('\n').filter(isInRightFormat);
+};
+ 
+
+Stockfetch.prototype.parseTickers = Stockfetch.prototype.parseTickersVenkatJohn;
 
 Stockfetch.prototype.processTickers = function(){};
 
