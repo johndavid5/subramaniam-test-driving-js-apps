@@ -1,0 +1,27 @@
+* readTickersFile() invokes processTickers() if the file is valid.
+
+* parseTickers() receives a string and returns a list of tickers.
+
+[x] readTickersFile() invokes an error handler if the file is invalid. 
+
+* processTickers() calls getPrice() for each ticker symbol.
+
+* getPrice() calls the web service.
+
+* For valid response,
+  getPrice() updates the prices()
+  collection.
+
+* For failed response,
+  getPrice() updates the
+  errors collection.
+
+* getPrice() calls printReport() in the end.
+
+* printReport() prints the results in sorted order.
+
+ - - - - - - -
+
+* readTickersFile() invokes an error handler if the file is empty
+* readTickersFile() invokes an error handler if the file is not formatted properly.
+
