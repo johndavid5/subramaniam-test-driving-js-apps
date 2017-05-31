@@ -42,3 +42,6 @@ call git add tackle/locateme/n.bat
 
 call git add testnode/stockfetch/src/stockfetch.js
 call git add testnode/stockfetch/test/stockfetch-test.js
+call git add testnode/stockfetch/split-spike.js
+call git add testnode/stockfetch/test-list.txt
+call git add testnode/stockfetch/n.bat

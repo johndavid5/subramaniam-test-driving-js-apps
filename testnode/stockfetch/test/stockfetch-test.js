@@ -91,4 +91,71 @@ describe('Stockfetch tests', function(){
 
 	});
 
+	it('readTickersFile() should return error if the given file is empty',
+	function(done){
+
+		// This test documents our design decision...if parseTickers()
+		// returns no ticker symbols, then readTickerFile will
+		// report an error.
+
+		var onError = function(err){				
+			expect(err).to.be.eql('File tickers.txt has invalid content');
+			done();
+		};
+
+		// stockfetch::parseTickers() stub returns empty array
+		// if input is an empty string...which documents
+		// our design decition for parseTickers()...
+		sandbox.stub(stockfetch, 'parseTickers').withArgs('').returns([]);
+
+		// fs::readFile() stub simulate readFile reading an empty file...
+		sandbox.stub(fs, 'readFile', function(fileName, callback){
+			callback(null, '');
+		});
+
+		stockfetch.readTickersFile('tickers.txt', onError);
+
+	});
+
+	it('parseTickers() receives an end-of-line delimited string and returns a list of tickers',
+      function positiveTestForParseTickers(){			
+
+			var rawData = 
+				'GOOG' + '\n' +
+				'AAPL' + '\n' + 
+				'ORCL' + '\n' + 
+				'MSFT';
+
+			var parsedData = ['GOOG', 'AAPL', 'ORCL', 'MSFT'];
+
+			// Synchronous function with no dependencies = easy-peasy...
+			expect(stockfetch.parseTickers(	rawData )).to.eql(parsedData);
+	});
+
+	it('parseTickers() returns an empty array if content is empty',
+      function positiveTestForParseTickers(){			
+
+			// Synchronous function with no dependencies = easy-peasy...
+			expect(stockfetch.parseTickers(	"" )).to.be.eql([]);
+	});
+
+	it('parseTickers() returns an empty array if content is empty',
+      function negativeTestForParseTickers(){			
+			expect(stockfetch.parseTickers(	"" )).to.be.eql([]);
+	});
+
+	it('parseTickers() returns an empty array upon receiving white-space-only content',
+      function negativeTestForParseTickers(){			
+			expect(stockfetch.parseTickers(	" \n " )).to.be.eql([]);
+	});
+
+	it('parseTickers() handles content with unexpected format',
+      function(){			
+			var rawData = "AAPL   \n" + // reject due to extraneous whitespace
+					  "Blah\n" + // reject because not ALL-CAPS...
+					  "GOOG\n\n";
+
+			expect(stockfetch.parseTickers(	rawData )).to.be.eql([ 'GOOG' ]);
+	});
+
 });

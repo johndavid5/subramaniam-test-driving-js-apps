@@ -1,8 +1,20 @@
-* readTickersFile() invokes processTickers() if the file is valid.
+[x] readTickersFile() invokes processTickers() if the file is valid.
 
-* parseTickers() receives a string and returns a list of tickers.
+[x] parseTickers() receives an end-of-line-delimited string and returns a list of tickers.
+
+[x] BONUS: parseTickers() receives an end-of-line-delimited string with extra
+whitespace and returns a list of trimmed tickers.
+
+[x] parseTickers() returns an empty array if content is empty.
+
+[x] parseTickers() returns an empty array upon receiving white-space-only content.
+
+* parseTickers() handles content with unexpected format.
 
 [x] readTickersFile() invokes an error handler if the file is invalid. 
+
+[x] readTickersFile() invokes an error handler if the file is not formatted
+properly...
 
 * processTickers() calls getPrice() for each ticker symbol.
 
@@ -22,6 +34,7 @@
 
  - - - - - - -
 
-* readTickersFile() invokes an error handler if the file is empty
+[x] readTickersFile() invokes an error handler if the file is empty.
 * readTickersFile() invokes an error handler if the file is not formatted properly.
 
+* parseTickers() receives a string and returns a list of tickers.
