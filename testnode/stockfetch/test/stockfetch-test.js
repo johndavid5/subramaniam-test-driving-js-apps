@@ -158,4 +158,34 @@ describe('Stockfetch tests', function(){
 			expect(stockfetch.parseTickers(	rawData )).to.be.eql([ 'GOOG' ]);
 	});
 
+	it('processTickers() should call getPrice() for each ticker symbol',
+	function (){
+		// Interaction tests...
+
+		// We mock stockfetch::getPrice() with expectation
+		// that it will be called thrice, with arguments
+		// 'MSFT', 'DIS', and 'IBM'...
+		var stockFetchMock = sandbox.mock(stockfetch);
+		stockFetchMock.expects('getPrice').withArgs('MSFT');
+		stockFetchMock.expects('getPrice').withArgs('DIS');
+		stockFetchMock.expects('getPrice').withArgs('IBM');
+
+		// ...then verify processTickers() interacts with
+		// getPrice() as expected...
+		stockfetch.processTickers(['MSFT', 'DIS', 'IBM']);
+		stockFetchMock.verify();
+	});
+
+	it('processTickers() should save tickers count',
+		function(){
+			// Using a return-nothing-in-particular
+			// cardboard cutout stub for
+			// sandbox::getPrice()...
+			sandbox.stub(stockfetch, 'getPrice');		
+
+			stockfetch.processTickers(['MSFT', 'DIS', 'IBM']);
+
+			expect(stockfetch.tickersCount).to.be.eql(3);
+	});
+
 });

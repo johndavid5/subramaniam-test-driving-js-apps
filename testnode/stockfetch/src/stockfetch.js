@@ -1,6 +1,7 @@
 var fs = require('fs');
 
 var Stockfetch = function(){
+	this.tickersCount = 0;
 };
 
 Stockfetch.prototype.readTickersFile = function(filename, onError){
@@ -87,7 +88,18 @@ Stockfetch.prototype.parseTickersVenkatJohn = function(rawData){
 
 Stockfetch.prototype.parseTickers = Stockfetch.prototype.parseTickersVenkatJohn;
 
-Stockfetch.prototype.processTickers = function(){};
+Stockfetch.prototype.processTickers = function(tickersArray){
+	var self = this;	
+
+	self.tickersCount = tickersArray.length;
+
+	tickersArray.forEach(function(ticker){
+		self.getPrice(ticker);	
+	});
+
+};
+
+Stockfetch.prototype.getPrice = function(){};
 
 
 // ES6
