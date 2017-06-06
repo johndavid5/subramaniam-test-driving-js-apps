@@ -3,7 +3,9 @@ var http = require('http');
 var getPriceTrial = function(ticker){ 
 
 	//var url = 'http://ichart.finance.yahoo.com/table.csv?s=' + ticker;
-	var url = 'https://ichart.finance.yahoo.com/table.csv?s=' + ticker;
+	//var url = 'https://ichart.finance.yahoo.com/table.csv?s=' + ticker;
+	// e.g., https://finance.yahoo.com/quote/GOOG?p==GOOG
+  	var url = "https://finance.yahoo.com/quote/" + ticker + "?p==" + ticker;
 	
 	console.log("url = " + url + "...");
 	

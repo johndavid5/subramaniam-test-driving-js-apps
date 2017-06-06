@@ -188,4 +188,78 @@ describe('Stockfetch tests', function(){
 			expect(stockfetch.tickersCount).to.be.eql(3);
 	});
 
+	it('getPrice() should call get on http with valid URL',
+		function(done){
+			// Isn't this more of a mock...because
+			// it keeps track of interactions...?
+
+			// Make http a property of Stockfetch, thus easier to stub out...
+			var httpStub = sandbox.stub(stockfetch.http, 'get',
+				function httpGetStub(url){				
+					expect(url).to.be.eql('http://johndavidaynedjian.com/finance/GOOG.csv');	
+					done();
+					// the get() function should return an object with
+					// an on property.  So, the stub returns a JSON object
+					// that has a dummy on() function.
+					return { on: function(){} };
+				}
+			);
+
+			stockfetch.getPrice('GOOG');
+
+	});
+
+	it('getPrice() should send a response handler to get',
+		function(done){
+
+			// getPrice() should bind() the given 'symbol'
+			// to the processResponse() function and register
+			// it as a handler to the http.get() function. 
+
+			var aHandler = function(){};
+
+			// Stub the bind() function of the processResponse()
+			// function, assert it recieves the correct context
+			// object (first parameter) and the symbol
+			// (second parameter).  If arguments to bind()
+			// are received as expected, then we return a 
+			// stub to represent the result of the call to bind().
+			sandbox.stub(stockfetch.processResponse, 'bind')
+				.withArgs(stockfetch, 'GOOG')
+				.returns(aHandler);
+
+			// Stub the http.get() function, ensuring that
+			// what the handler() recieved is what bind()
+			// returned.
+			var httpStub = sandbox.stub(stockfetch.http, 'get',
+				function(url, handler){
+					expect(handler).to.be.eql(aHandler);
+					done();
+					return {on: function(){}};
+				}
+			);
+	});
+
+
+//	it('getPrice() should register handler for failure to reach host',
+//			function(done){
+//				var errorHandler = function(){};
+//
+//				sandbox.stub(stockfetch.processHttpError, 'bind')
+//					.withArgs(stockfetch, 'GOOG')
+//					.returns(errorHandler);
+//
+//				var onStub = function(event, handler){
+//					expect(event).to.be.eql('error');
+//					expect(handler).to.be.eql(errorHandler);
+//					done();
+//				};
+//
+//				sandbox.stub(stockfetch.ttp, 'get').returns(
+//					{on: onStub}
+//				);
+//
+//				stockfetch.getPrice('GOOG');
+//	});
+
 });

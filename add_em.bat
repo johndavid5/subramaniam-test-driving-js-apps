@@ -45,3 +45,9 @@ call git add testnode/stockfetch/test/stockfetch-test.js
 call git add testnode/stockfetch/split-spike.js
 call git add testnode/stockfetch/test-list.txt
 call git add testnode/stockfetch/n.bat
+
+call git add testnode/stockfetch/spike/package.json
+call git add testnode/stockfetch/spike/getprice-johnny.js
+call git add testnode/stockfetch/spike/getprice.js
+call git add testnode/stockfetch/spike/n.bat
+call git add testnode/stockfetch/spike/readme.txt

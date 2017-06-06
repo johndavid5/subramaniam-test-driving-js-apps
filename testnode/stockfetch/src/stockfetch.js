@@ -1,7 +1,11 @@
 var fs = require('fs');
+//var http = require('http');
 
 var Stockfetch = function(){
+
 	this.tickersCount = 0;
+	//this.http = http;
+
 };
 
 Stockfetch.prototype.readTickersFile = function(filename, onError){
@@ -25,6 +29,7 @@ Stockfetch.prototype.readTickersFile = function(filename, onError){
 		};
 
 	fs.readFile(filename, processResponse);
+
 }; /* readTickersFile() */
  
 //Stockfetch.prototype.parseTickersJohn = function(rawData){
@@ -99,8 +104,19 @@ Stockfetch.prototype.processTickers = function(tickersArray){
 
 };
 
-Stockfetch.prototype.getPrice = function(){};
+Stockfetch.prototype.getPrice = function(ticker)
+{
+	var self = this;	
 
+	var processResponse = function(){};
+
+	self.http.get(
+		'http://johndavidaynedjian.com/finance/' + ticker + '.csv',
+		processResponse(response){
+		}
+	);	
+
+}; /* getPrice() */
 
 // ES6
 //class Stockfetch {

@@ -1,0 +1,14 @@
+{
+  "name": "spike",
+  "version": "1.0.0",
+  "description": "play around with getting stock prices...",
+  "main": "getprice.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "John D. Aynedjian",
+  "license": "ISC",
+  "dependencies": {
+    "htmlparser2": "^3.9.2"
+  }
+}

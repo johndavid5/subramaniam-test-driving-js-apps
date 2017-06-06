@@ -2,22 +2,29 @@
 var http = require('http');
 //var https = require('https');
 
-var htmlparser = require("htmlparser2");
-
 var getPriceTrial = function(ticker){
 
 	console.log("getPriceTrial(): ticker = " + ticker + "...");
 
+	// Attempt to utilize the finance API, but as of May 2016 or so,
+	// this is no longer available
+	// unless you use cookie crumbs which are currently only implemented
+	// in Python...
 	//var url = 'http://ichart.finance.yahoo.com/table.csv?s=' + ticker;
-	//var url = 'http://ichart.finance.yahoo.com/table.csv?s=' + ticker;
-	// e.g., https://finance.yahoo.com/quote/GOOG?p==GOOG
+
+	// Attempt to parse human-readable page, but this serves up a React
+	// page, so you'd need to use selenium to scrape it.
   	//var url = "https://finance.yahoo.com/quote/" + ticker + "?p==" + ticker;
+	// e.g., https://finance.yahoo.com/quote/GOOG?p==GOOG
+
+	// Keep It Simple, Sam: Simulate fake-o API using the NGINX server serving
+	// from the filesystem at my cloud site...
   	var url = "http://johndavidaynedjian.com/finance/" + ticker + ".csv";
 
 	console.log("GET " + url + "...");
 
 	http.get(url,
-			function getHandler(response){
+			function processResponse(response){
 
 				console.log("SHEMP: Moe, response.headers =", response.headers);
 
@@ -36,48 +43,8 @@ var getPriceTrial = function(ticker){
 						console.log( data );
 						console.log("=============\n");
 
-						console.log("SHEMP: Moe, let's feed dha data t' htmlparser2...\n");
-
-						parser.write(data);
-						parser.end();
-
 					};
 
-					var parser = new htmlparser.Parser({
-
-					    onopentag: function onOpenTag(tagname, attribs){
-							var sWho = "onOpenTag";
-					        //if(name === "script" && attribs.type === "text/javascript"){
-					        //   console.log("JS! Hooray!");
-					        //}
-							console.log(sWho + "(): tagname = \"" + tagname + "\", attribs = ", attribs );
-					    },
-
-					    ontext: function onText(text){
-							var sWho = "onText";
-					        //console.log("-->", text);
-							console.log(sWho + "(): text = \"" + text + "\"...\n");
-					    },
-
-					    onclosetag: function onCloseTag(tagname){
-							var sWho = "onCloseTag";
-					        //if(tagname === "script"){
-					        //    console.log("That's it?!");
-					        //}
-							console.log(sWho + "(): tagname = \"" + tagname + "\"...\n");
-					    },
-
-					    onend: function onEnd(tagname){
-							var sWho = "onEnd";
-					        //if(tagname === "script"){
-					        //    console.log("That's it?!");
-					        //}
-							console.log(sWho + "(): SHEMP: That's all she wrote, Moe...\n");
-					    }
-					}, {decodeEntities: true});
-
-					//parser.write("Xyz <script type='text/javascript'>var foo = '<<bar>>';</ script>");
-					//parser.end();
 
 					response.on('data', getChunk);
 
@@ -101,7 +68,6 @@ var getPriceTrial = function(ticker){
 
 }; /* getPriceTrial() */
 
-//getPriceTrial('GOOG');
 getPriceTrial('MSFT');
 getPriceTrial('IBM');
 getPriceTrial('INVALID');

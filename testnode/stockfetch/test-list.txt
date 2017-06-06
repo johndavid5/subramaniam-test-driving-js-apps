@@ -18,7 +18,12 @@ properly...
 
 * processTickers() calls getPrice() for each ticker symbol.
 
-* getPrice() calls the web service.
+-- absorbed -- getPrice() calls the web service.
+getPrice() calls get on http with valid URL
+getPrice() calls get with a response handler as argument
+getPrice() registers handlers for failure to reach host
+[getPrice()] response handler gathers data and updates price collection 
+[getPrice()] error handler updates errors collection
 
 * For valid response,
   getPrice() updates the prices()
