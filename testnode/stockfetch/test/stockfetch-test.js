@@ -195,7 +195,7 @@ describe('Stockfetch tests', function(){
 
 			// Make http a property of Stockfetch, thus easier to stub out...
 			var httpStub = sandbox.stub(stockfetch.http, 'get',
-				function httpGetStub(url){				
+				function (url){				
 					expect(url).to.be.eql('http://johndavidaynedjian.com/finance/GOOG.csv');	
 					done();
 					// the get() function should return an object with
@@ -212,9 +212,11 @@ describe('Stockfetch tests', function(){
 	it('getPrice() should send a response handler to get',
 		function(done){
 
-			// getPrice() should bind() the given 'symbol'
-			// to the processResponse() function and register
-			// it as a handler to the http.get() function. 
+			// Interaction Test: getPrice() should bind()
+			// the given 'symbol' to the processResponse()
+			// function (along with the context object)
+			// and register it as a handler to the
+			// http.get() function. 
 
 			var aHandler = function(){};
 
@@ -232,34 +234,46 @@ describe('Stockfetch tests', function(){
 			// what the handler() recieved is what bind()
 			// returned.
 			var httpStub = sandbox.stub(stockfetch.http, 'get',
-				function(url, handler){
+				function httpGetStub(url, handler){
+					var sWho = "httpGetStub";
+					console.log(sWho + "(): url = ", url, ", handler = ", handler );
 					expect(handler).to.be.eql(aHandler);
 					done();
-					return {on: function(){}};
+					return { on: function(){} };
 				}
 			);
+
+			// Now that we've set up all these stubs...call it!
+			stockfetch.getPrice('GOOG');
 	});
 
 
-//	it('getPrice() should register handler for failure to reach host',
-//			function(done){
-//				var errorHandler = function(){};
-//
-//				sandbox.stub(stockfetch.processHttpError, 'bind')
-//					.withArgs(stockfetch, 'GOOG')
-//					.returns(errorHandler);
-//
-//				var onStub = function(event, handler){
-//					expect(event).to.be.eql('error');
-//					expect(handler).to.be.eql(errorHandler);
-//					done();
-//				};
-//
-//				sandbox.stub(stockfetch.ttp, 'get').returns(
-//					{on: onStub}
-//				);
-//
-//				stockfetch.getPrice('GOOG');
-//	});
+	it('getPrice() should register handler for failure to reach host',
+			function(done){
+
+				// Interaction Test: getPrice() should bind()
+				// the given 'symbol' to the processHttpError()
+				// function (along with the context object)
+				// and register it as the on.error handler for the
+				// http.get() function. 
+
+				var errorHandler = function(){};
+
+				sandbox.stub(stockfetch.processHttpError, 'bind')
+					.withArgs(stockfetch, 'GOOG')
+					.returns(errorHandler);
+
+				var onStub = function(event, handler){
+					expect(event).to.be.eql('error');
+					expect(handler).to.be.eql(errorHandler);
+					done();
+				};
+
+				sandbox.stub(stockfetch.http, 'get').returns(
+					{on: onStub}
+				);
+
+				stockfetch.getPrice('GOOG');
+	});
 
 });

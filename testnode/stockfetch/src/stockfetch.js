@@ -1,10 +1,10 @@
 var fs = require('fs');
-//var http = require('http');
+var http = require('http');
 
 var Stockfetch = function(){
 
 	this.tickersCount = 0;
-	//this.http = http;
+	this.http = http;
 
 };
 
@@ -94,6 +94,7 @@ Stockfetch.prototype.parseTickersVenkatJohn = function(rawData){
 Stockfetch.prototype.parseTickers = Stockfetch.prototype.parseTickersVenkatJohn;
 
 Stockfetch.prototype.processTickers = function(tickersArray){
+
 	var self = this;	
 
 	self.tickersCount = tickersArray.length;
@@ -104,19 +105,25 @@ Stockfetch.prototype.processTickers = function(tickersArray){
 
 };
 
-Stockfetch.prototype.getPrice = function(ticker)
+Stockfetch.prototype.getPrice = function(symbol)
 {
-	var self = this;	
+	var url = 'http://johndavidaynedjian.com/finance/' + symbol + '.csv';
 
-	var processResponse = function(){};
+	self = this;
 
 	self.http.get(
-		'http://johndavidaynedjian.com/finance/' + ticker + '.csv',
-		processResponse(response){
-		}
-	);	
+		url,
+		// Return bind() of context object and argument to this.processResponse()...
+		self.processResponse.bind(self, symbol)
+	)
+	.on('error', self.processHttpError.bind(self, symbol));
+	
 
 }; /* getPrice() */
+
+Stockfetch.prototype.processResponse = function(){};
+
+Stockfetch.prototype.processHttpError = function(){};
 
 // ES6
 //class Stockfetch {
