@@ -276,4 +276,77 @@ describe('Stockfetch tests', function(){
 				stockfetch.getPrice('GOOG');
 	});
 
+	it('processResponse() should call parsePrice() with valid data',
+			function(){
+		var dataFunction;
+		var endFunction;
+
+		/*
+		* processResponse():
+		* 1: Must register a 'data' event to gather the data chunks.
+		*    from the HTTP responses.
+		*
+		* 2: ...and another event 'end' that signals there's no more data...
+		*
+		* 3: Once all data received, processResponse() has to call
+		*    the parsePrice() function.
+	    */
+
+		// Fabricate a "faux" response object...
+		// with statusCode of 200 for success...
+		// ...allowing us to grab references to the
+		// callbacks that processResponse() registers
+		// with the on event of the response object...
+		var response = {
+			statusCode: 200,
+			on: function(event, handler){
+				if(event === 'data') dataFunction = handler;
+				if(event === 'end') endFunction = handler;
+			}
+		};
+
+		var parsePriceMock = sandbox.mock(stockfetch)
+					.expects('parsePrice').withArgs('GOOG', 'some data');
+
+		stockfetch.processResponse('GOOG', response);
+		// Call the callbacks that processReponse() has registered...
+		// simulating the actions of HTTP response sessions...
+		dataFunction('some ');
+		dataFunction('data');
+		endFunction();
+
+		// Verify with mock that parsePrice() was called within the
+		// processResponse() with the appropriate simulated data...
+		parsePriceMock.verify();
+	});
+
+	it('processResponse() should call processError() if response failed',
+		function(){
+			// Faux response object with statusCode 404 - failure...
+			var response = { statusCode: 404 };
+
+			var processErrorMock = sandbox.mock(stockfetch)
+									.expects('processError')
+									.withArgs('GOOG', 404);
+
+			stockfetch.processResponse('GOOG', response);
+			processErrorMock.verify();
+	});
+
+	it('processResponse() should call processError() only if response failed',
+		function(){
+			// Faux response object with statusCode 404 - failure...
+			var response = {
+					statusCode: 200,
+					on: function(){}
+			};
+
+			var processErrorMock = sandbox.mock(stockfetch)
+									.expects('processError')
+									.never();
+
+			stockfetch.processResponse('GOOG', response);
+			processErrorMock.verify();
+	});
+
 });

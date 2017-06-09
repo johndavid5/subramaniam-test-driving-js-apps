@@ -26,61 +26,15 @@ Stockfetch.prototype.readTickersFile = function(filename, onError){
 					self.processTickers(tickers);
 				}
 			}
-		};
+	};
 
 	fs.readFile(filename, processResponse);
 
 }; /* readTickersFile() */
  
-//Stockfetch.prototype.parseTickersJohn = function(rawData){
-//
-//	rawData = rawData.trim(); // Covers white-space-only situation, and makes for cleaner output...
-//
-//	if( rawData.length == 0 ){
-//		return [];
-//	}
-//	else {
-//		/* Note: When the string is empty, split() returns an array containing one empty string,
-//		* rather than an empty array. If the string and separator are both empty strings, an empty
-//		* array is returned.
-//		*/
-//		rawArray = rawData.split('\n');
-//
-//		returnArray = []; 
-//
-//		rawArray.forEach(function(le_raw_element, le_index, le_array){ 
-//			var preened_element = le_raw_element.trim().toUpperCase();	
-//
-//			// returnArray should only contain elements that 
-//			// when trimmed of whitespace and converted to upper case
-//			// remain unchanged.
-//			if(preened_element == le_raw_element ){
-//				returnArray.push( le_raw_element );
-//			}
-//		});
-//
-//		return returnArray;
-//	}
-//
-//}; /* parseTickersJohn() */
-//
-///* MCCOY: Don't be so smart, Spock, you botched the Acetylcholine test...!
-//*
-//* Nice try, Venkat, with your cutesy and succint use of the filter() method,
-//* but this code allows "Blah" to get through even
-//* though it's not in ALL-CAPS
-//*/
-//Stockfetch.prototype.parseTickersVenkat = function(rawData){
-//	var isInRightFormat = function(str){
-//		return str.trim().length !== 0
-//			&& str.indexOf(' ') < 0;
-//	};
-//
-//	return rawData.split('\n').filter(isInRightFormat);
-//}; /* parseTickersVenkat() */
-   
 
-Stockfetch.prototype.parseTickersVenkatJohn = function(rawData){
+Stockfetch.prototype.parseTickers = function(rawData){
+
 	var isInRightFormat = function(str){
 		return str.trim().length !== 0
 			&& str.indexOf(' ') < 0
@@ -88,10 +42,9 @@ Stockfetch.prototype.parseTickersVenkatJohn = function(rawData){
 	};
 
 	return rawData.split('\n').filter(isInRightFormat);
-}; /* parseTickersVenkatJohn() */
- 
 
-Stockfetch.prototype.parseTickers = Stockfetch.prototype.parseTickersVenkatJohn;
+}; /* parseTickers() */
+ 
 
 Stockfetch.prototype.processTickers = function(tickersArray){
 
@@ -121,7 +74,27 @@ Stockfetch.prototype.getPrice = function(symbol)
 
 }; /* getPrice() */
 
-Stockfetch.prototype.processResponse = function(){};
+Stockfetch.prototype.processResponse = function(symbol, response){
+	var self = this;
+
+	if( response.statusCode === 200 ){
+		var data = '';
+
+		response.on('data', function(chunk){ data += chunk; });
+
+		response.on('end', function(){ self.parsePrice(symbol, data); });
+	}
+	else {
+		
+		self.processError( symbol, response.statusCode );
+		
+	}
+
+};
+
+Stockfetch.prototype.parsePrice = function(){};
+
+Stockfetch.prototype.processError = function(){};
 
 Stockfetch.prototype.processHttpError = function(){};
 
