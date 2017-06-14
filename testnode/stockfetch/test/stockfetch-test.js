@@ -349,4 +349,16 @@ describe('Stockfetch tests', function(){
 			processErrorMock.verify();
 	});
 
+	it('processHttpError(ticker, error) should call processError(ticker, error.code) with error details', 
+		function(){
+			var processErrorMock = sandbox.mock(stockfetch)
+										  .expects('processError')
+										  .withArgs('GOOG', '...error code...');
+
+			var error = { code: '...error code...' };
+
+			stockfetch.processHttpError('GOOG', error );
+			processErrorMock.verify();
+	});
+
 });

@@ -96,7 +96,9 @@ Stockfetch.prototype.parsePrice = function(){};
 
 Stockfetch.prototype.processError = function(){};
 
-Stockfetch.prototype.processHttpError = function(){};
+Stockfetch.prototype.processHttpError = function(ticker, error){
+	this.processError(ticker, error.code );
+};
 
 // ES6
 //class Stockfetch {
