@@ -38,7 +38,12 @@ processHttpError() calls processError() with the error details
 
 * getPrice() calls printReport() in the end.
 
-* printReport() prints the results in sorted order.
+* ----<delete>printReport() prints the results in sorted order.</delete>----
+
+  printReport() sends price, errors once all responses arrive.
+  printReport() does not send before all responses arrive.
+  printReport() sorts prices based on the tickers.
+  printReport() sorts errors based on the tickers.
 
  - - - - - - -
 
@@ -46,3 +51,6 @@ processHttpError() calls processError() with the error details
 * readTickersFile() invokes an error handler if the file is not formatted properly.
 
 * parseTickers() receives a string and returns a list of tickers.
+
+ -------------
+

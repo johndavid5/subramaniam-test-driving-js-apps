@@ -361,4 +361,34 @@ describe('Stockfetch tests', function(){
 			processErrorMock.verify();
 	});
 
+	var data = "close,day-range\n" +
+				"625.77002,625.67000-625.77002";
+
+	it('parsePrice() should update prices in shared data structure',
+		function(){
+			stockfetch.parsePrice('GOOG', data);	
+			expect(stockfetch.price.GOOG).to.be.eql('625.77002');
+	});
+
+	it('parsePrice() should call printReport()',
+		function(){
+			var printReportMock = sandbox.mock(stockfetch).expects('printReport');
+			stockfetch.parsePrice('GOOG', data);
+			printReportMock.verify();
+	});
+
+	it('processError() should update errors',
+		function(){
+			stockfetch.processError('GOOG', 'D\'oh!');	
+			expect(stockfetch.errors.GOOG).to.be.eql("D'oh!");
+	});
+
+	it('processError() should call printReport()',
+		function(){
+			var printReportMock = sandbox.mock(stockfetch).expects('printReport');
+			stockfetch.processError("GOOG", "D'oh!");
+			printReportMock.verify();
+	});
+
+
 });

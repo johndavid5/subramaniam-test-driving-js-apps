@@ -4,7 +4,14 @@ var http = require('http');
 var Stockfetch = function(){
 
 	this.tickersCount = 0;
+
 	this.http = http;
+
+    // populate like this: { 'GOOG': 127.72, 'IBM': 146.33 }
+	this.price = {}; 
+
+    // populate like this: { "GOOG": "D'oh!" }
+	this.errors = {}; 
 
 };
 
@@ -92,9 +99,28 @@ Stockfetch.prototype.processResponse = function(symbol, response){
 
 };
 
-Stockfetch.prototype.parsePrice = function(){};
+// e.g., data = "close,day-range\n" +
+//				"625.77002,625.67000-625.77002";
+Stockfetch.prototype.parsePrice = function(symbol, data){
+	var a_lines = data.split("\n");
 
-Stockfetch.prototype.processError = function(){};
+	if( a_lines.length >= 2 ){
+		var a_fields = a_lines[1].split(",");
+		if( a_fields.length >= 1 ){
+			var le_price = a_fields[0].trim();
+			this.price[symbol] = le_price;
+		}
+	}
+
+	this.printReport();
+};
+
+Stockfetch.prototype.printReport = function(){};
+
+Stockfetch.prototype.processError = function(symbol, message){
+	this.errors[symbol] = message;
+	this.printReport();
+};
 
 Stockfetch.prototype.processHttpError = function(ticker, error){
 	this.processError(ticker, error.code );
