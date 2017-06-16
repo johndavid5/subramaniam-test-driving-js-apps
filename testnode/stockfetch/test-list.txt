@@ -38,7 +38,7 @@ processHttpError() calls processError() with the error details
 
 * getPrice() calls printReport() in the end.
 
-* ----<delete>printReport() prints the results in sorted order.</delete>----
+* ----<absorb>printReport() prints the results in sorted order.</absorb>----
 
   printReport() sends price, errors once all responses arrive.
   printReport() does not send before all responses arrive.

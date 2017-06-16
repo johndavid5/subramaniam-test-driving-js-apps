@@ -390,5 +390,36 @@ describe('Stockfetch tests', function(){
 			printReportMock.verify();
 	});
 
+	it('printReport() should send price and errors via reportCallback() once all reponses arrive...',
+		function(){
+			stockfetch.prices = {'GOOG': 12.34 };
+			stockfetch.errors = {'AAPL': 'error' };
+			stockfetch.tickersCount = 2;
+
+			var callbackMock = 
+				sandbox.mock(stockfetch)	
+					.expects('reportCallBack')
+					.withArgs([['GOOG', 12.34]],[['AAPL','error']]); 
+			
+			stockfetch.printReport();
+			callbackMock.verify();
+		}
+	);
+
+	it('printReport() should not send price and errors via reportCallback() before all reponses arrive...',
+		function(){
+			stockfetch.prices = {'GOOG': 12.34 };
+			stockfetch.errors = {'AAPL': 'error' };
+			stockfetch.tickersCount = 3;
+
+			var callbackMock = 
+				sandbox.mock(stockfetch)	
+					.expects('reportCallBack')
+					.never();
+			
+			stockfetch.printReport();
+			callbackMock.verify();
+		}
+	);
 
 });

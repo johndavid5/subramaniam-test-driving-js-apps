@@ -115,7 +115,27 @@ Stockfetch.prototype.parsePrice = function(symbol, data){
 	this.printReport();
 };
 
-Stockfetch.prototype.printReport = function(){};
+// Delegates report printing to user-supplied reportCallBack()... 
+Stockfetch.prototype.printReport = function(){
+
+	var prices_array = [];
+	for( var ticker in this.prices ){
+		prices_array.push( [ ticker, this.prices[ticker] ] );
+	}
+
+	var errors_array = [];
+	for( var ticker in this.errors ){
+		errors_array.push( [ ticker, this.errors[ticker] ] );
+	}
+
+	// Only do reportCallback() if all the responses have arrived...
+	if( prices_array.length + errors_array.length >= this.tickersCount ){
+		this.reportCallBack( prices_array, errors_array );
+	}
+};
+
+// Should be replaced with user-supplied reportCallBack()...
+Stockfetch.prototype.reportCallBack = function(){};
 
 Stockfetch.prototype.processError = function(symbol, message){
 	this.errors[symbol] = message;
