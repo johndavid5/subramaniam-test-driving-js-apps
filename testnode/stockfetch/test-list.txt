@@ -38,12 +38,14 @@ processHttpError() calls processError() with the error details
 
 * getPrice() calls printReport() in the end.
 
-* ----<absorb>printReport() prints the results in sorted order.</absorb>----
+* ---refactored---printReport() prints the results in sorted order.---refactored---
 
-  printReport() sends price, errors once all responses arrive.
-  printReport() does not send before all responses arrive.
-  printReport() sorts prices based on the tickers.
-  printReport() sorts errors based on the tickers.
+  [x] printReport() sends price, errors once all responses arrive.
+  [x] printReport() does not send before all responses arrive.
+  ---refactored---printReport() sorts prices based on the tickers.---refactored---
+  ---refactored---printReport() sorts errors based on the tickers.---refactored---
+  [ ] printReport() calls sortData(), once for prices, once for errors.
+  [ ] sortData() sorts the data based on symbols.
 
  - - - - - - -
 

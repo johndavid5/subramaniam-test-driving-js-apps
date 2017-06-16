@@ -398,7 +398,7 @@ describe('Stockfetch tests', function(){
 
 			var callbackMock = 
 				sandbox.mock(stockfetch)	
-					.expects('reportCallBack')
+					.expects('reportCallback')
 					.withArgs([['GOOG', 12.34]],[['AAPL','error']]); 
 			
 			stockfetch.printReport();
@@ -414,12 +414,31 @@ describe('Stockfetch tests', function(){
 
 			var callbackMock = 
 				sandbox.mock(stockfetch)	
-					.expects('reportCallBack')
+					.expects('reportCallback')
 					.never();
 			
 			stockfetch.printReport();
 			callbackMock.verify();
 		}
 	);
+
+	it('printReport() should call sortData() once for prices, once for errors...',
+		function(){
+			stockfetch.prices = { 'GOOG': 12.34 };
+			stockfetch.errors = { 'AAPL': 'error' };
+			stockfetch.tickersCount = 2;
+
+			var mock = sandbox.mock(stockfetch);
+			mock.expects('sortData').withArgs(stockfetch.prices);
+			mock.expects('sortData').withArgs(stockfetch.errors);
+
+			stockfetch.printReport();
+			mock.verify();
+	});
+
+	//it('sortData() should sort the data based on the symbols',
+	//	function(){
+	//		var dataToSort = {'GOOG': 1.2, 
+	//});
 
 });

@@ -102,6 +102,7 @@ Stockfetch.prototype.processResponse = function(symbol, response){
 // e.g., data = "close,day-range\n" +
 //				"625.77002,625.67000-625.77002";
 Stockfetch.prototype.parsePrice = function(symbol, data){
+
 	var a_lines = data.split("\n");
 
 	if( a_lines.length >= 2 ){
@@ -115,27 +116,50 @@ Stockfetch.prototype.parsePrice = function(symbol, data){
 	this.printReport();
 };
 
-// Delegates report printing to user-supplied reportCallBack()... 
+// Delegates report printing to user-supplied reportCallback()... 
 Stockfetch.prototype.printReport = function(){
 
-	var prices_array = [];
-	for( var ticker in this.prices ){
-		prices_array.push( [ ticker, this.prices[ticker] ] );
-	}
+	//var prices_array = this.sortData(this.prices);
 
-	var errors_array = [];
-	for( var ticker in this.errors ){
-		errors_array.push( [ ticker, this.errors[ticker] ] );
-	}
+	//var errors_array = this.sortData(this.errors);
 
 	// Only do reportCallback() if all the responses have arrived...
-	if( prices_array.length + errors_array.length >= this.tickersCount ){
-		this.reportCallBack( prices_array, errors_array );
+	//if( prices_array.length + errors_array.length >= this.tickersCount ){
+	//	this.reportCallback( prices_array, errors_array );
+	//}
+
+	if(
+		this.tickersCount === 
+			Object.keys(this.prices).length + Object.keys(this.errors).length
+	){
+		this.reportCallback(this.sortData(this.prices), this.sortData(this.errors));
 	}
 };
 
-// Should be replaced with user-supplied reportCallBack()...
-Stockfetch.prototype.reportCallBack = function(){};
+Stockfetch.prototype.sortData = function(){};
+
+//Stockfetch.prototype.sortData = function(data){
+//
+//	console.log("sortData(): data =", data );
+//
+//	var output_array = [];
+//
+//	for( var ticker in data ){
+//		output_array.push( [ ticker, data[ticker] ] );
+//	}
+//
+//	console.log("sortData(): returning ", output_array );
+//
+//	return output_array;
+//};
+
+// Should be replaced with user-supplied reportCallback()...
+// ...but this do-nothing callback will prevent any mishaps...
+Stockfetch.prototype.reportCallback = 
+function reportCallback(){
+	//var sWho = "reportCallback";
+	//console.log(sWho + "(): You should replace this with your own Stockfetch.prototype.reportCallback()...\n");
+};
 
 Stockfetch.prototype.processError = function(symbol, message){
 	this.errors[symbol] = message;
