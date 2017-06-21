@@ -364,10 +364,10 @@ describe('Stockfetch tests', function(){
 	var data = "close,day-range\n" +
 				"625.77002,625.67000-625.77002";
 
-	it('parsePrice() should update prices in shared data structure',
+	it('parsePrice() should update prices...in shared "prices" data structure',
 		function(){
 			stockfetch.parsePrice('GOOG', data);	
-			expect(stockfetch.price.GOOG).to.be.eql('625.77002');
+			expect(stockfetch.prices.GOOG).to.be.eql('625.77002');
 	});
 
 	it('parsePrice() should call printReport()',
@@ -377,7 +377,7 @@ describe('Stockfetch tests', function(){
 			printReportMock.verify();
 	});
 
-	it('processError() should update errors',
+	it('processError() should update errors...in shared "errors" data structure...',
 		function(){
 			stockfetch.processError('GOOG', 'D\'oh!');	
 			expect(stockfetch.errors.GOOG).to.be.eql("D'oh!");
@@ -390,7 +390,7 @@ describe('Stockfetch tests', function(){
 			printReportMock.verify();
 	});
 
-	it('printReport() should send price and errors via reportCallback() once all reponses arrive...',
+	it('printReport() should send price, errors -- via user-defined this.reportCallback() -- once all reponses arrive...',
 		function(){
 			stockfetch.prices = {'GOOG': 12.34 };
 			stockfetch.errors = {'AAPL': 'error' };
@@ -406,8 +406,9 @@ describe('Stockfetch tests', function(){
 		}
 	);
 
-	it('printReport() should not send price and errors via reportCallback() before all reponses arrive...',
+	it('printReport() should not send -- price and errors via reportCallback() -- before all reponses arrive...',
 		function(){
+
 			stockfetch.prices = {'GOOG': 12.34 };
 			stockfetch.errors = {'AAPL': 'error' };
 			stockfetch.tickersCount = 3;
@@ -422,19 +423,19 @@ describe('Stockfetch tests', function(){
 		}
 	);
 
-	it('printReport() should call sortData() once for prices, once for errors...',
-		function(){
-			stockfetch.prices = { 'GOOG': 12.34 };
-			stockfetch.errors = { 'AAPL': 'error' };
-			stockfetch.tickersCount = 2;
-
-			var mock = sandbox.mock(stockfetch);
-			mock.expects('sortData').withArgs(stockfetch.prices);
-			mock.expects('sortData').withArgs(stockfetch.errors);
-
-			stockfetch.printReport();
-			mock.verify();
-	});
+//	it('printReport() should call sortData() once for prices, once for errors...',
+//		function(){
+//			stockfetch.prices = { 'GOOG': 12.34 };
+//			stockfetch.errors = { 'AAPL': 'error' };
+//			stockfetch.tickersCount = 2;
+//
+//			var mock = sandbox.mock(stockfetch);
+//			mock.expects('sortData').withArgs(stockfetch.prices);
+//			mock.expects('sortData').withArgs(stockfetch.errors);
+//
+//			stockfetch.printReport();
+//			mock.verify();
+//	});
 
 	//it('sortData() should sort the data based on the symbols',
 	//	function(){

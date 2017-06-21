@@ -7,10 +7,11 @@ var Stockfetch = function(){
 
 	this.http = http;
 
-    // populate like this: { 'GOOG': 127.72, 'IBM': 146.33 }
-	this.price = {}; 
+    // Populate this.price like a "hashtable":
+	// { 'GOOG': 127.72, 'IBM': 146.33 }
+	this.prices = {}; 
 
-    // populate like this: { "GOOG": "D'oh!" }
+    // Populate this.error like so: { "GOOG": "D'oh!" }
 	this.errors = {}; 
 
 };
@@ -109,34 +110,51 @@ Stockfetch.prototype.parsePrice = function(symbol, data){
 		var a_fields = a_lines[1].split(",");
 		if( a_fields.length >= 1 ){
 			var le_price = a_fields[0].trim();
-			this.price[symbol] = le_price;
+			this.prices[symbol] = le_price;
 		}
 	}
 
 	this.printReport();
-};
+
+}; /* parsePrice() */
+
+
+/* e.g., input of
+*    {'GOOG': 12.34, 'MOOG': 13.34 }
+* leads to output
+*    [['GOOG', 12.34], ['MOOG', 13.34]]
+*/
+Stockfetch.prototype.toArray = function(dataObject){
+
+	var outputArray = [];
+
+	for( var key in dataObject ){
+		var value = dataObject[key]; 				
+		outputArray.push( [key, value] );
+	}
+
+	return outputArray;
+
+}; /* toArray() */
+
+
 
 // Delegates report printing to user-supplied reportCallback()... 
 Stockfetch.prototype.printReport = function(){
 
-	//var prices_array = this.sortData(this.prices);
-
-	//var errors_array = this.sortData(this.errors);
-
-	// Only do reportCallback() if all the responses have arrived...
-	//if( prices_array.length + errors_array.length >= this.tickersCount ){
-	//	this.reportCallback( prices_array, errors_array );
-	//}
-
+	// Only call reportCallback() if all the responses have arrived...
 	if(
 		this.tickersCount === 
 			Object.keys(this.prices).length + Object.keys(this.errors).length
 	){
-		this.reportCallback(this.sortData(this.prices), this.sortData(this.errors));
+		this.reportCallback(this.toArray(this.prices), this.toArray(this.errors));
 	}
-};
+}; /* printReport() */
 
-Stockfetch.prototype.sortData = function(){};
+
+//Stockfetch.prototype.sortData = function(){
+//	return [];
+//};
 
 //Stockfetch.prototype.sortData = function(data){
 //
@@ -155,14 +173,14 @@ Stockfetch.prototype.sortData = function(){};
 
 // Should be replaced with user-supplied reportCallback()...
 // ...but this do-nothing callback will prevent any mishaps...
-Stockfetch.prototype.reportCallback = 
-function reportCallback(){
+Stockfetch.prototype.reportCallback = function reportCallback(){
 	//var sWho = "reportCallback";
 	//console.log(sWho + "(): You should replace this with your own Stockfetch.prototype.reportCallback()...\n");
 };
 
 Stockfetch.prototype.processError = function(symbol, message){
 	this.errors[symbol] = message;
+
 	this.printReport();
 };
 
