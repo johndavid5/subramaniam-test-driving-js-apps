@@ -140,38 +140,14 @@ Stockfetch.prototype.printReport = function(){
 	}
 }; /* printReport() */
 
-/* e.g., input of
-*    {'GOOG': 12.34, 'MOOG': 13.34 }
-* leads to output
-*    [['GOOG', 12.34], ['MOOG', 13.34]]
-*/
-//Stockfetch.prototype.toArray = function(dataObject){
-//
-//	var outputArray = [];
-//
-//	for( var key in dataObject ){
-//		var value = dataObject[key]; 				
-//		outputArray.push( [key, value] );
-//	}
-//
-//	return outputArray;
-//
-//}; /* toArray() */
-
-//Stockfetch.prototype.singleKeyToArrayy = function(key){ 
-//		return [key, this[key]];
-//};
 
 Stockfetch.prototype.sortData = function(dataToSort){
-	//return this.toArray(data);	
 
 	// Converts single-key of dataToSort to
 	// an array [key, dataToSort[key]]
 	var singleKeyToArray = function(key){ 
 		return [key, dataToSort[key]];
 	};
-	// Perverse, but it works...
-	//return Object.keys(dataToSort).sort().map(this.singleKeyToArrayy, dataToSort);
 	return Object.keys(dataToSort).sort().map(singleKeyToArray);
 };
 
