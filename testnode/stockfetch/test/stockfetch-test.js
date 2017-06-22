@@ -423,23 +423,56 @@ describe('Stockfetch tests', function(){
 		}
 	);
 
-//	it('printReport() should call sortData() once for prices, once for errors...',
-//		function(){
-//			stockfetch.prices = { 'GOOG': 12.34 };
-//			stockfetch.errors = { 'AAPL': 'error' };
-//			stockfetch.tickersCount = 2;
-//
-//			var mock = sandbox.mock(stockfetch);
-//			mock.expects('sortData').withArgs(stockfetch.prices);
-//			mock.expects('sortData').withArgs(stockfetch.errors);
-//
-//			stockfetch.printReport();
-//			mock.verify();
-//	});
+	it('printReport() should call sortData() once for prices, once for errors...',
+		function(){
+			stockfetch.prices = { 'GOOG': 12.34 };
+			stockfetch.errors = { 'AAPL': 'error' };
+			stockfetch.tickersCount = 2;
 
-	//it('sortData() should sort the data based on the symbols',
-	//	function(){
-	//		var dataToSort = {'GOOG': 1.2, 
-	//});
+			var mock = sandbox.mock(stockfetch);
+			mock.expects('sortData').withArgs(stockfetch.prices);
+			mock.expects('sortData').withArgs(stockfetch.errors);
+
+			stockfetch.printReport();
+			mock.verify();
+	});
+
+	it('sortData() should sort the data based on the symbols',
+		function(){
+			var dataToSort = {'GOOG': 1.2, 'AAPL': 2.1 }; 
+
+			var result = stockfetch.sortData( dataToSort );
+
+			expect(result).to.be.eql([['AAPL', 2.1], ['GOOG', 1.2]]);
+	});
+
+	it('getPriceForTickers() -- integrating function -- should report error for invalid file', function(done){
+		var onError = function(error){
+			expect(error).to.be.eql('Error reading file: Invalid File');
+			done();
+		};
+
+		var display = function(){};
+
+		stockfetch.getPriceForTickers('Invalid File', display, onError);
+	});
+
+	it('getPriceForTickers() -- integrating function -- should respond well for a valid file', function(done){
+		var onError = sandbox.mock().never();
+
+		var display = function displayIt(prices, errors){
+			var sWho = "displayIt";
+			console.log(sWho + "(): prices = ", prices);
+			console.log(sWho + "(): errors = ", errors);
+			expect(prices.length).to.be.eql(4);
+			expect(errors.length).to.be.eql(1);
+			onError.verify(); // Verify that onError() was never called...
+			done();
+		};
+
+		this.timeout(10000);
+
+		stockfetch.getPriceForTickers('mixedTickers.txt', display, onError);
+	});
 
 });

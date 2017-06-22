@@ -22,13 +22,16 @@ Stockfetch.prototype.readTickersFile = function(filename, onError){
 
 	var processResponse = 
 		function(err, data){
+			var sWho = "Stockfetch.readTickersFile.processReponse";
 			if(err){	
 				onError('Error reading file: ' + filename);
 			}
 			else{
 				var tickers = self.parseTickers(data.toString()); 
 				if( tickers.length == 0 ){ 
-					onError(`File ${filename} has invalid content`); 
+					var sMsg = `File ${filename} has invalid content`;
+					console.log(sWho + "(): ERROR: \"" + sMsg + "\"..."); 
+					onError( sMsg );
 				}
 				else {
 					self.processTickers(tickers);
@@ -71,6 +74,8 @@ Stockfetch.prototype.getPrice = function(symbol)
 	var url = 'http://johndavidaynedjian.com/finance/' + symbol + '.csv';
 
 	self = this;
+
+	console.log("Stockfetch::getPrice(): Doin' HTTP GET of url = \"" + url + "\"...");
 
 	self.http.get(
 		url,
@@ -119,23 +124,6 @@ Stockfetch.prototype.parsePrice = function(symbol, data){
 }; /* parsePrice() */
 
 
-/* e.g., input of
-*    {'GOOG': 12.34, 'MOOG': 13.34 }
-* leads to output
-*    [['GOOG', 12.34], ['MOOG', 13.34]]
-*/
-Stockfetch.prototype.toArray = function(dataObject){
-
-	var outputArray = [];
-
-	for( var key in dataObject ){
-		var value = dataObject[key]; 				
-		outputArray.push( [key, value] );
-	}
-
-	return outputArray;
-
-}; /* toArray() */
 
 
 
@@ -147,29 +135,45 @@ Stockfetch.prototype.printReport = function(){
 		this.tickersCount === 
 			Object.keys(this.prices).length + Object.keys(this.errors).length
 	){
-		this.reportCallback(this.toArray(this.prices), this.toArray(this.errors));
+		//this.reportCallback(this.toArray(this.prices), this.toArray(this.errors));
+		this.reportCallback(this.sortData(this.prices), this.sortData(this.errors));
 	}
 }; /* printReport() */
 
-
-//Stockfetch.prototype.sortData = function(){
-//	return [];
-//};
-
-//Stockfetch.prototype.sortData = function(data){
+/* e.g., input of
+*    {'GOOG': 12.34, 'MOOG': 13.34 }
+* leads to output
+*    [['GOOG', 12.34], ['MOOG', 13.34]]
+*/
+//Stockfetch.prototype.toArray = function(dataObject){
 //
-//	console.log("sortData(): data =", data );
+//	var outputArray = [];
 //
-//	var output_array = [];
-//
-//	for( var ticker in data ){
-//		output_array.push( [ ticker, data[ticker] ] );
+//	for( var key in dataObject ){
+//		var value = dataObject[key]; 				
+//		outputArray.push( [key, value] );
 //	}
 //
-//	console.log("sortData(): returning ", output_array );
+//	return outputArray;
 //
-//	return output_array;
+//}; /* toArray() */
+
+//Stockfetch.prototype.singleKeyToArrayy = function(key){ 
+//		return [key, this[key]];
 //};
+
+Stockfetch.prototype.sortData = function(dataToSort){
+	//return this.toArray(data);	
+
+	// Converts single-key of dataToSort to
+	// an array [key, dataToSort[key]]
+	var singleKeyToArray = function(key){ 
+		return [key, dataToSort[key]];
+	};
+	// Perverse, but it works...
+	//return Object.keys(dataToSort).sort().map(this.singleKeyToArrayy, dataToSort);
+	return Object.keys(dataToSort).sort().map(singleKeyToArray);
+};
 
 // Should be replaced with user-supplied reportCallback()...
 // ...but this do-nothing callback will prevent any mishaps...
@@ -186,6 +190,11 @@ Stockfetch.prototype.processError = function(symbol, message){
 
 Stockfetch.prototype.processHttpError = function(ticker, error){
 	this.processError(ticker, error.code );
+};
+
+Stockfetch.prototype.getPriceForTickers = function(fileName, displayFn, errorFn){
+	this.reportCallback = displayFn;
+	this.readTickersFile(fileName, errorFn);
 };
 
 // ES6
