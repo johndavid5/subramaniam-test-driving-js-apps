@@ -1,0 +1,27 @@
+* db: get() returns null initially for the connection.
+
+* db: close() will set the connection to null.
+
+* db: close() will close the existing connection.
+
+* db: connect(), given a valid database name, sets the connection.
+
+* db: connect(), when no database name is given, returns an error.
+
+* task: all() returns an array of tasks from the tasks collection.
+
+* task: get() returns a task with a given _id_. 
+
+* task: get() returns a {} for an invalid _id_.
+
+* task: add() adds a task to the _tasks_ collection.
+
+* task: add() will return an error if the input is invalid.
+
+* task: delete() will delete a task with the given _id_.
+
+* task: delete() will return an error if the task with _id_ is not found.
+
+* tasks: (...we'll get to these later...)
+ 
+
