@@ -3,6 +3,7 @@ var expect = require('chai').expect;
 var db = require('../../db');
 
 describe('db tests', function(){
+
 	it('should pass this canary test',
 	function(){
 		expect(true).to.be.true;
@@ -37,13 +38,15 @@ describe('db tests', function(){
 
 	it('connect() should set connection given valid database name',
 	function(done){
-		// Verify the "happy path"...using the actual
-		// MongoDb::connect() function...
+		// Verify the "happy path"...using the _actual_
+		// -- yes, I said _actual_ -- MongoDb::connect()
+		// function...
 
 		// MongoDb's connect() function is asynchronous,
 		// so we'll need asynchronous tests.
 
 		var callback = function(err){
+
 			expect(err).to.be.null;
 
 			expect(db.get().databaseName).to.be.eql('todotest');
@@ -55,6 +58,28 @@ describe('db tests', function(){
 
 		db.connect('mongodb://localhost/todotest', callback);
 
+	});
+
+	it('connect() should reject invalid schema',
+			function(done){
+		var callback = function(err){
+			//expect(err instanceof Error).to.be.true;
+			expect(err).to.be.instanceof(Error);
+			done();
+		};
+
+		db.connect('badschema://localhost/todotest', callback);
+	});
+
+	it('connect() should reject invalid dbname',
+			function(done){
+
+		var callback = function(err){
+			expect(err).to.be.instanceof(Error);
+			done();
+		};
+
+		db.connect('mongodb', callback);
 	});
 });
 

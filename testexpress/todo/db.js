@@ -1,20 +1,42 @@
 var MongoClient = require('mongodb').MongoClient;
 
 module.exports = {
+
+	debug: false,
+
 	connection: null,
 
 	connect: function(dbname, callback){
+		var sWho = "db::connect";
+
 		var self = this;
 
 		var cacheConnection = function doCacheConnection(err, db){
 			var sWho = "doCacheconnection";
-			//console.log(sWho + "(): err = ", err );
-			//console.log(sWho + "(): db = ", db );
+
+			if( this.debug ){
+				console.log(sWho + "(): err = ", err );
+			    console.log(sWho + "(): db = ", db );
+			}
+
 			self.connection = db;
 			callback(null);
 		};
 
-		MongoClient.connect(dbname, cacheConnection);
+		if( this.debug ){
+			console.log(sWho + "(): Calling MongoClient.connect(dbname=", dbname, "...");
+		}
+
+		try {
+			MongoClient.connect(dbname, cacheConnection);
+		}
+		catch(ex){
+			if( this.debug ){
+				console.log(sWho + "(): Caught exception: ex.constructor.name = ", ex.constructor.name );
+				//console.log(sWho + "(): Caught exception:", ex );
+			}
+			callback(ex)
+		}
 	},
 
 	get: function(){
