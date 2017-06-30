@@ -116,6 +116,32 @@ describe('task models tests', function()
 		}/* getNullTest() */
 	); 
 
+	it('add() should return null error for valid task, and should see new task in database...',
+		function (done){
+
+			var ourCallback = function addTestCallback(err){
+
+				var sWho ="addTestCallback";
+
+				if( debug ){
+					console.log(sWho + "(): err = ", err );
+					console.log(sWho + "(): task = ", task );
+				}
+				expect(err).to.be.null;
+
+				task.all(function(err, tasks){
+					// Confirm that fourth item returned from all() to be equal to the new task...
+					expect(tasks[3].name).to.be.equal('a new task');
+				});
+
+				done();
+			};
+
+			task.add(sampleTask, ourCallback);
+
+		}/* getNullTest() */
+	); 
+
 });
 
 

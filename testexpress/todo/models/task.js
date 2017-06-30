@@ -11,4 +11,8 @@ module.exports = {
 	get: function(taskId, callback){
 		db.get().collection(collectionName).find({'_id': new ObjectId(taskId)}).limit(1).next(callback);
 	},
+
+	add: function(newTask, callback){
+		db.get().collection(collectionName).insertOne(newTask, callback);
+	},
 };
