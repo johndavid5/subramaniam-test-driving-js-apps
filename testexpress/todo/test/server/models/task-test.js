@@ -7,7 +7,7 @@ describe('task models tests', function()
 {
 	var sampleTask;
 	var sampleTasks;
-	var debug = 0; 
+	var debug = 1; 
 
 	// before() and after() with Mocha's watch option: keeps database
 	// connection open only when necessary 
@@ -141,6 +141,32 @@ describe('task models tests', function()
 
 		}/* getNullTest() */
 	); 
+
+	var expectError = function(message, done){
+		return function expect_error(err){
+			
+			var sWho = "expect_error";
+
+			if( debug ){
+				console.log(sWho + "(): outer: message = ", message);
+				//console.log(sWho + "(): outer: done = ", done );
+				console.log(sWho + "(): err.message = ", err.message );
+				console.log(sWho + "(): err = ", err );
+			}
+
+			expect(err.message).to.be.eql(message);
+			done();
+		}
+	};
+
+	it('add() should return Error if task already exists',
+		function(done){
+			sampleTask = sampleTasks[0];	
+	
+			delete sampleTask._id;
+
+			task.add(sampleTask, expectError('duplicate task', done));
+	});
 
 });
 
