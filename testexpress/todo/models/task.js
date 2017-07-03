@@ -3,6 +3,8 @@ var ObjectId = require('mongodb').ObjectId;
 
 var collectionName = 'tasks';
 
+var validateTask = require('../public/javascripts/common/validate-task');
+
 module.exports = {
 	all: function(callback){
 		db.get().collection(collectionName).find().toArray(callback);
@@ -25,8 +27,12 @@ module.exports = {
 		};/* found() */
 
 
-		//db.get().collection(collectionName).insertOne(newTask, callback);
-		db.get().collection(collectionName).find(newTask).limit(1)
-		.next(found);
+		if( this.validate(newTask) ){
+			db.get().collection(collectionName).find(newTask).limit(1)
+			.next(found);
+		}
 	},
+
+	// Delegate validation to method common to client and server...
+	validate: validateTask,
 };

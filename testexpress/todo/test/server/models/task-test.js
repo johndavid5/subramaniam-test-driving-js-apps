@@ -2,12 +2,13 @@ var expect = require('chai').expect;
 var db = require('../../../db');
 var ObjectId = require('mongodb').ObjectId;
 var task = require('../../../models/task');
+var validateTask = require('../../../public/javascripts/common/validate-task');
 
 describe('task models tests', function()
 {
 	var sampleTask;
 	var sampleTasks;
-	var debug = 1; 
+	var debug = 0; 
 
 	// before() and after() with Mocha's watch option: keeps database
 	// connection open only when necessary 
@@ -166,6 +167,40 @@ describe('task models tests', function()
 			delete sampleTask._id;
 
 			task.add(sampleTask, expectError('duplicate task', done));
+	});
+
+	it('validate() should refer to common validateTask()',
+			function(){
+		expect(task.validate).to.be.eql(validateTask);	
+	});
+
+	it('add() should call validate()',
+		function(done){
+			validateCalled = false;	
+
+			// Create a spy for the validate property...
+			task.validate = function spyForValidateProperty(task){
+
+				// spy asserts that attached function is called
+				// with the task sent to the add() function
+				expect(task).to.be.eql(sampleTask);
+
+				// Signal that spy was called by setting validateCalled flag...
+				validateCalled = true;
+
+				return validateTask(task); 
+			};
+
+			// Call add() function with sample task and no op/empty 
+			// callback (but important for the test, because it calls
+			// done()...)
+			task.add(sampleTask, done);
+
+			expect(validateCalled).to.be.true;
+
+			// Replace spy with original reference to
+			// the validateTask() function...
+			task.validate = validateTask;
 	});
 
 });
