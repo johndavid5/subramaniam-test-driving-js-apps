@@ -18,6 +18,12 @@ module.exports = {
 
 		var found = function(err, task){
 
+			// 1943-05-28 BACK FROM THE FRONT,
+			// featuring Moe, Larry and Curly
+			// http://www.threestooges.net/filmography/episode/70
+			//
+			// MOE: "If we're discovered, we're lost!"
+			// CURLY: "You're crazy... if we're discovered, we're FOUND!"/
 			if(task){
 				callback(new Error('duplicate task'));
 			}
@@ -30,6 +36,9 @@ module.exports = {
 		if( this.validate(newTask) ){
 			db.get().collection(collectionName).find(newTask).limit(1)
 			.next(found);
+		}
+		else{
+			callback( new Error('D\'oh!  Unable to add task.') );
 		}
 	},
 

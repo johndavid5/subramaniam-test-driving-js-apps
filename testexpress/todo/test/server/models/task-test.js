@@ -198,8 +198,32 @@ describe('task models tests', function()
 
 			expect(validateCalled).to.be.true;
 
-			// Replace spy with original reference to
-			// the validateTask() function...
+			// Clean up your mess.  Replace spy with original
+			// reference to the validateTask() function...
+			task.validate = validateTask;
+	});
+
+	it('add() should handle validation failure',
+		function(done){
+			// Setup onError callback to validate proper error
+			// message is received...
+			var onError = function onErrorCallback(err){
+				expect(err.message).to.be.eql('D\'oh!  Unable to add task.');
+				done();
+			};			
+
+			// Stub (hijack) the validate() property, returning
+			// false to pretend the given task is invalid.
+			// Kinda like Hogan's Heroes intercepting a call
+			// to headquarters, eh...?
+			task.validate = function(task){
+				return false;
+			};
+
+			task.add(sampleTask, onError);	
+
+			// Clean up our mess: Set task.validate() back
+			// equal to validateTask()
 			task.validate = validateTask;
 	});
 
