@@ -42,6 +42,24 @@ module.exports = {
 		}
 	},
 
+	delete: function(taskId, callback){
+		var handleDelete = function(err, result){
+			if( result.deletedCount != 1 ){
+				callback(new Error("unable to delete task with id: " + taskId));
+			}
+			else {
+				// null means success...
+				callback(null);
+			}
+		};
+
+		db.get().collection(collectionName)
+		.deleteOne(
+			{'_id': new ObjectId(taskId)},
+			handleDelete
+		 );
+	},
+
 	// Delegate validation to method common to client and server...
 	validate: validateTask,
 };

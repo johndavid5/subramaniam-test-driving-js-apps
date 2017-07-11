@@ -1,5 +1,10 @@
 var validateTask = function(task){
-	return true;
+	if( task && task.name ){
+		return true;
+	}
+	else {
+		return false;
+	}
 };
 
 // Only need module.exports for node,

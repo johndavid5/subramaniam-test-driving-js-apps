@@ -143,6 +143,9 @@ describe('task models tests', function()
 		}/* getNullTest() */
 	); 
 
+	// helper function: checks if proper error message
+	// is received, and also signals the completion
+	// of the test.
 	var expectError = function(message, done){
 		return function expect_error(err){
 			
@@ -225,6 +228,51 @@ describe('task models tests', function()
 			// Clean up our mess: Set task.validate() back
 			// equal to validateTask()
 			task.validate = validateTask;
+	});
+
+	it('delete() should send null after deleting existing task',
+		function(done){
+			var callback = function(err){	
+
+				expect(err).to.be.null;
+
+				task.all(function(err, tasks){
+					expect(tasks.length).to.be.eql(2);
+					done();
+				});	
+			};
+
+			task.delete('123412341242', callback);
+	});
+
+	it('delete() should return Error (and not null) if task not found',
+		function(done){
+			task.delete('123412341234123412342319',
+				expectError(
+				'unable to delete task with id: 123412341234123412342319',
+				done
+				)
+			);
+	});
+
+	it('delete() should return Error if task id is undefined',
+		function(done){
+			task.delete( undefined, 
+				expectError(
+				'unable to delete task with id: undefined',
+				done
+				)
+			);
+	});
+
+	it('delete() should return Error if task id is null',
+		function(done){
+			task.delete( null, 
+				expectError(
+				'unable to delete task with id: null',
+				done
+				)
+			);
 	});
 
 });
