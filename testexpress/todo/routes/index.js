@@ -1,3 +1,4 @@
+// This function was auto-created by the Express generator... 
 var express = require('express');
 var router = express.Router();
 

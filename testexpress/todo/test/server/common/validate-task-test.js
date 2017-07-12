@@ -43,7 +43,29 @@ describe('validate task tests',
 
 		it('should return false for null name.',
 			function(){
-				expectFailForProperty('name', undefined );
+				expectFailForProperty('name', null );
 		});
 
+		it('should return false for empty name.',
+			function(){
+				expectFailForProperty('name', "" );
+		});
+
+		// DRY = Do not Repeat Yourself...
+		['month', 'day', 'year'].forEach(function(property){
+			it('should return false for undefined ' + property,
+					function(){
+				expectFailForProperty(property, undefined);
+			});
+
+			it('should return false for null ' + property,
+					function(){
+				expectFailForProperty(property, undefined);
+			});
+
+			it('should return false for non number ' + property,
+					function(){
+				expectFailForProperty(property, 'text');
+			});
+		});		
 });
