@@ -1,7 +1,12 @@
 var express = require('express');
 var router = express.Router();
+var task = require('../models/task'); 
 
 /* GET home page. */
-router.get('/', undefined );
+router.get('/', function(req, res, next){
+	task.all(function(err, tasks){
+		res.send(tasks);
+	});
+});
 
 module.exports = router;

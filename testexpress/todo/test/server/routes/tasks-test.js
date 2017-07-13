@@ -4,8 +4,11 @@ var task = require('../../../models/task');
 var express = require('express');
 
 describe('tasks routes tests', function(){
+
 	var sandbox;
 	var router;
+
+	var DEBUG = true;
 
 	beforeEach(function(){
 		// Create your stubs...in your sandbox...
@@ -17,6 +20,8 @@ describe('tasks routes tests', function(){
 		// each refers to a spy() function--an empty
 		// function which will simply record the 
 		// parameters when called.
+		//
+		// @reference: http://sinonjs.org/releases/v2.3.7/spies/
 		sandbox.stub(express, 'Router').returns({
 			get: sandbox.spy(),	
 			post: sandbox.spy(),
@@ -43,4 +48,56 @@ describe('tasks routes tests', function(){
 			expect(router.get.calledWith('/', 
 				sandbox.match.any)).to.be.true;
 	});
+
+	// Helper function that returns a "stub" for the
+	// send() function of res...stub verifies that
+	// the data it receives is equal to an expected
+	// value and signals a completion of the test by
+	// calling done().  Actually this is more of
+	// a "mock" in that it tattletales and verifies.
+	var stubResSend = function(expected, done){
+		return {
+			send: function sendTattler(data){	
+				var sWho = "sendTattler";
+				if( DEBUG ){	
+					console.log(sWho + "(): data = ", data );
+				}
+				expect(data).to.be.eql(expected);	
+				done();
+			}
+		};
+	};
+
+	it("get / handler should call model's all() method " +
+		"& return result",
+		function(done){
+			var sampleTasks = [{name: 't1', 
+				month: 12, day: 1, year: 2016}
+			];
+
+			// Stub out task.all() in model/task.js,
+			// returning a canned response...
+			//
+			// HANS: Hit it again.
+			//
+			// McCLEAN: We already hit up the database, Hans,
+			// when testing out model/task.js, so there's no
+			// need to hit it here...
+			sandbox.stub(task, 'all', function(callback){
+				callback(null, sampleTasks);
+			});
+
+			var req = {};
+			var res = stubResSend(sampleTasks, done);
+
+			// Ask the sinon.spy() filling in for router.get()
+			// to give us the second argument passed to
+			// its first call...this is the routes handler.
+			var registeredCallback = router.get.firstCall.args[1];
+
+			// Call the routes handler with JSON stub for _req_
+			// and _res_ stub that we created via stubResSend().
+			registeredCallback(req, res);
+	});
+
 });
