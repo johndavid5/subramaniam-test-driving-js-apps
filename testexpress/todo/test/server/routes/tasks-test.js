@@ -76,8 +76,9 @@ describe('tasks routes tests', function(){
 
 		function(done){
 
-			var sampleTasks = [{name: 't1', 
-				month: 12, day: 1, year: 2016}
+			var sampleTasks = [
+				{name: 't1', month: 12, day: 1, year: 2016},
+				{name: 't2', month: 12, day: 2, year: 2016}
 			];
 
 			// Stub out task.all() in model/task.js,
@@ -110,6 +111,46 @@ describe('tasks routes tests', function(){
 		// Ask our spy() if router.get() was called 	
 		// with args '/:id', anything...
 		expect(router.get.calledWith('/:id', sandbox.match.any)).to.be.true;
+	});
+
+	it("get() /:validid handler should call model's get() & return a task",
+		function(done){
+			var sampleTask = {name: 't1', month: 12, day: 1, year: 2016};
+			sandbox.stub(task, 'get', function(id, callback){
+				expect(id).to.be.eql(req.params.id);
+				callback(null, sampleTask);
+			});
+
+			var req = {params: {id: 1}};
+			var res = stubResSend(sampleTask, done);
+
+			// Relies on implementation detail
+			// order of registration...
+			var registeredCallback = 
+				router.get.secondCall.args[1];
+
+			registeredCallback(req, res);
+	});
+
+	it("get() /:invalidid handler should call model's get() & return a friendly {}",
+		function(done){
+
+			var sampleTask = {};
+
+			sandbox.stub(task, 'get', function(id, callback){
+				expect(id).to.be.eql(req.params.id);
+				callback(null, null);
+			});
+
+			var req = {params: {id: 2319}};
+			var res = stubResSend(sampleTask, done);
+
+			// Relies on implementation detail
+			// order of registration...
+			var registeredCallback = 
+				router.get.secondCall.args[1];
+
+			registeredCallback(req, res);
 	});
 
 });

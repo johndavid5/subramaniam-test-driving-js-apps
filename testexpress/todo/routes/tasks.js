@@ -9,6 +9,16 @@ router.get('/', function(req, res, next){
 	});
 });
 
-router.get('/:id', undefined );
+router.get('/:id', function(req, res, next){
+	task.get( req.params.id, function(err, task){
+		if( task ){
+			res.send(task);
+		}
+		else{
+			// Send back friendly empty object instead of null...
+			res.send({});
+		}
+	});	
+});
 
 module.exports = router;
