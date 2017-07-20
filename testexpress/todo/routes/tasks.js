@@ -9,4 +9,6 @@ router.get('/', function(req, res, next){
 	});
 });
 
+router.get('/:id', undefined );
+
 module.exports = router;

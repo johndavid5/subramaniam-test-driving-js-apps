@@ -44,6 +44,9 @@ describe('tasks routes tests', function(){
 	});	
 
 	it('should register URI / for get',
+		// We stubbed out router.get() to be 
+		// a spy, so it's simple to verify
+		// that it was called with args '/', anything.
 		function(){
 			expect(router.get.calledWith('/', 
 				sandbox.match.any)).to.be.true;
@@ -68,15 +71,18 @@ describe('tasks routes tests', function(){
 		};
 	};
 
-	it("get / handler should call model's all() method " +
+	it("GET / handler should call model's all() method " +
 		"& return result",
+
 		function(done){
+
 			var sampleTasks = [{name: 't1', 
 				month: 12, day: 1, year: 2016}
 			];
 
 			// Stub out task.all() in model/task.js,
-			// returning a canned response...
+			// returning a canned response...so
+			// you won't hafta hit up the database...
 			//
 			// HANS: Hit it again.
 			//
@@ -98,6 +104,12 @@ describe('tasks routes tests', function(){
 			// Call the routes handler with JSON stub for _req_
 			// and _res_ stub that we created via stubResSend().
 			registeredCallback(req, res);
+	});
+
+	it('should register URI /:id for get()', function(){
+		// Ask our spy() if router.get() was called 	
+		// with args '/:id', anything...
+		expect(router.get.calledWith('/:id', sandbox.match.any)).to.be.true;
 	});
 
 });
