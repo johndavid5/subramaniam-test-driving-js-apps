@@ -21,6 +21,8 @@ router.get('/:id', function(req, res, next){
 	});	
 });
 
-router.post('/', undefined ); 
+router.post('/', function(req, res, next){
+	task.add( req.body, function(err, task){});
+}); 
 
 module.exports = router;

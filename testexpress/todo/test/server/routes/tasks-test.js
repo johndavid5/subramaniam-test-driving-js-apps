@@ -53,11 +53,12 @@ describe('tasks routes tests', function(){
 	});
 
 	// Helper function that returns a "stub" for the
-	// send() function of res...stub verifies that
+	// res::send(). Stub verifies that
 	// the data it receives is equal to an expected
 	// value and signals a completion of the test by
 	// calling done().  Actually this is more of
-	// a "mock" in that it tattletales and verifies.
+	// a "mock" in that it tattletales and verifies,
+	// n'est-ce pas?
 	var stubResSend = function(expected, done){
 		return {
 			send: function sendTattler(data){	
@@ -157,5 +158,30 @@ describe('tasks routes tests', function(){
 		expect(router.post.calledWith('/',
 			sandbox.match.any)).to.be.true;
 	});
+
+	it("POST / handler should call model's add() and return success message", function(done){
+
+		// Fetch the registered callback, and verify that
+		// it calls the add() function of the task model.
+		// ...brings the implementation into the handler
+		// registered for POST...
+		var sampleTask = {name: 't1', month: 12, day: 1, year: 2016};
+
+		sandbox.stub(task, 'add', function(newTask, callback)
+		{
+			expect(newTask).to.be.eql(sampleTask);
+			callback(null);
+		});
+
+		var req = { body: sampleTask };
+		var res = stubResSend('task added', done);
+
+		var registeredCallback = 
+			router.post.firstCall.args[1];
+
+		registeredCallback(req, res);
+	});
+
+		
 
 });
