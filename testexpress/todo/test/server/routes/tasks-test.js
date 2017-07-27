@@ -153,4 +153,9 @@ describe('tasks routes tests', function(){
 			registeredCallback(req, res);
 	});
 
+	it('should register URI / for POST', function(){
+		expect(router.post.calledWith('/',
+			sandbox.match.any)).to.be.true;
+	});
+
 });
