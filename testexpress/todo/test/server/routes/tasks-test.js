@@ -182,6 +182,26 @@ describe('tasks routes tests', function(){
 		registeredCallback(req, res);
 	});
 
+	it("POST / handler should return error message on failure",
+		function(done){
+			// Invalid Task: Must have a 'name'... 
+			var sampleTask = {month: 12, day: 1, year: 2016};
+
+			sandbox.stub(task, 'add', function addStub(newTask, callback)
+			{
+				expect(newTask).to.be.eql(sampleTask);
+				callback(new Error('unable to add task'));
+			});	
+
+			var req = { body: sampleTask };
+			var res = stubResSend('unable to add task', done);	
+
+			var registeredCallback = 
+				router.post.firstCall.args[1];
+
+			registeredCallback(req, res);
+	});
+
 		
 
 });
