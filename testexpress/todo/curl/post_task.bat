@@ -1,0 +1,2 @@
+REM curl -L -v --noproxy localhost --trace-ascii curl_test_service.trace-ascii.out -H "Content-Type: application/x-www-form-urlencoded" -XPOST --data "url=http%3A%2 F%2Fjohndavidaynedjian.com%3A8081" "http://resumes.brealtime.com/test.php"
+curl -w "\n" -X POST -H "Content-Type: application/json" -d "{\"name\": \"Practice TDD\", \"month\": 8, \"day\": 10, \"year\": 2016}" http://localhost:3000/tasks 

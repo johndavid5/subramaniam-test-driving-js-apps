@@ -33,4 +33,15 @@ router.post('/', function(req, res, next){
 	});
 }); 
 
+router.delete('/:id', function(req, res, next){
+	task.delete( req.params.id, function(err, task){
+			if(err){
+				res.send(err.message);
+			}
+			else{
+				res.send('task deleted');
+			}
+	});
+});
+
 module.exports = router;
