@@ -103,7 +103,8 @@ beforeEach(function() {
       date: {value: '12/11/2016'},
     };
 
-    sandbox.stub(document, 'getElementById', function(id) {
+    //sandbox.stub(document, 'getElementById', function(id) {
+    sandbox.stub(document, 'getElementById').callsFake(function(id) {
       if(!domElements[id]) domElements[id] = {};
       return domElements[id];
     });
@@ -129,7 +130,8 @@ beforeEach(function() {
 
 //START:GETTASKS1
   it('getTasks should call callService', function(done) {
-    sandbox.stub(window, 'callService', 
+    //sandbox.stub(window, 'callService', 
+    sandbox.stub(window, 'callService').callsFake(
       function(params) {
       expect(params.method).to.be.eql('GET');
       expect(params.url).to.be.eql('/tasks');         
@@ -240,7 +242,8 @@ beforeEach(function() {
 
 //START:ONLOAD2  
   it('initpage should call getTasks', function(done) {
-    sandbox.stub(window, 'getTasks', done);
+    //sandbox.stub(window, 'getTasks', done);
+    sandbox.stub(window, 'getTasks').callsFake(done);
     
     initpage();
   });
@@ -248,7 +251,8 @@ beforeEach(function() {
 
 //START:ADDTASK
   it('addTask should call callService', function(done) {
-    sandbox.stub(window, 'callService', 
+    //sandbox.stub(window, 'callService', 
+    sandbox.stub(window, 'callService').callsFake(
       function(params, callback) {
         expect(params.method).to.be.eql('POST');
         expect(params.url).to.be.eql('/tasks');
@@ -353,7 +357,8 @@ beforeEach(function() {
 
 //START:DELETETASK2
   it('deleteTask should call callService', function(done) {
-    sandbox.stub(window, 'callService', function(params) {
+    //sandbox.stub(window, 'callService', function(params) {
+    sandbox.stub(window, 'callService').callsFake(function(params) {
       expect(params.method).to.be.eql('DELETE');
       expect(params.url).to.be.eql('/tasks/123412341203');
       done();

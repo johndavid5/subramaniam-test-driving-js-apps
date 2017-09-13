@@ -15,7 +15,8 @@ describe('tasks-with jQuery functions-tests', function() {
 
    domElements = {};
 
-   sandbox.stub(window, '$', function(selector) {
+   //sandbox.stub(window, '$', function(selector) {
+   sandbox.stub(window, '$').callsFake( function(selector) {
      return {
        html: function(value) { domElements[selector] = value; },
        click: function(value) { domElements[selector] = value; },
@@ -46,7 +47,8 @@ describe('tasks-with jQuery functions-tests', function() {
  });
 
  it('jGetTasks should call jCallService', function(done) {
-   sandbox.stub(window, 'jCallService', function(params) {
+   //sandbox.stub(window, 'jCallService', function(params) {
+   sandbox.stub(window, 'jCallService').callsFake( function(params) {
      expect(params.method).to.be.eql('GET');
      expect(params.url).to.be.eql('/tasks');
      done();
@@ -147,13 +149,15 @@ describe('tasks-with jQuery functions-tests', function() {
 //END:READY_TEST
 
  it('jInitpage should call jGetTasks', function(done) {
-   sandbox.stub(window, 'jGetTasks', done);
+   //sandbox.stub(window, 'jGetTasks', done);
+   sandbox.stub(window, 'jGetTasks').callsFake(done);
   
    jInitpage();
  });
 
  it('jAddTask should call jCallService', function(done) {
-   sandbox.stub(window, 'jCallService', 
+   //sandbox.stub(window, 'jCallService', 
+   sandbox.stub(window, 'jCallService').callsFake(
      function(params, callback) {
        expect(params.method).to.be.eql('POST');
        expect(params.url).to.be.eql('/tasks');
@@ -235,7 +239,8 @@ describe('tasks-with jQuery functions-tests', function() {
  });
 
  it('deleteTask should call jCallService', function(done) {
-   sandbox.stub(window, 'jCallService', function(params) {
+   //sandbox.stub(window, 'jCallService', function(params) {
+   sandbox.stub(window, 'jCallService').callsFake( function(params) {
      expect(params.method).to.be.eql('DELETE');
      expect(params.url).to.be.eql('/tasks/123412341203');
      done();
