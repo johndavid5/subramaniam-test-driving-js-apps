@@ -31,9 +31,14 @@ describe('tasks controller tests', function(){
 		expect(controller.message).to.be.eql('');
 	});
 
-	it("getTasks() should interact with the service...calling service's get() function with the proper callback...after registering updateTasks() and updateError() with the controller...",
+	it("getTasks() should interact with the service...calling service's get() function with the proper callback...",
 	function(done){
 
+		// Since we only need to verify that they are being
+		// called, setup stubs for controller.updateTasks() and
+		// controller.updateError() for now...
+		// ...don't worry, controller will implement these
+		// in subsequent tests...
 		controller.updateTasks = function(){};
 		controller.updateError = function(){};
 		
@@ -44,5 +49,16 @@ describe('tasks controller tests', function(){
 		};
 
 		controller.getTasks();
+	});
+
+	it('updateTasks() should update tasks', function(){
+		var tasksStub = [{sample: 1}];
+		controller.updateTasks(tasksStub);
+		expect(controller.tasks).to.be.eql(tasksStub);
+	});
+
+	it('updateError() should update message', function(){
+		controller.updateError('Not Found', 404);
+		expect(controller.message).to.be.eql('Not Found (status: 404)');
 	});
 });
