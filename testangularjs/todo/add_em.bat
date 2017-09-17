@@ -6,3 +6,4 @@ call git add test/client/tasksj-test.js
 call git add status.bat
 call git add add_em.bat
 call git add test.bat
+call get add v.bat
