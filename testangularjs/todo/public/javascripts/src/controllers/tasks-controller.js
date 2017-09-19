@@ -25,7 +25,9 @@ var TasksController = function(tasksService, $filter){
 		// Use Angular's $filter...almost too easy...?
 		var orderBy = $filter('orderBy');	
 		//return orderBy(tasks, 'year');
-		return orderBy(tasks, ['year', 'month']);
+		//return orderBy(tasks, ['year', 'month']);
+		//return orderBy(tasks, ['year', 'month','day']);
+		return orderBy(tasks, ['year', 'month','day','name']);
 	};
 };
 
