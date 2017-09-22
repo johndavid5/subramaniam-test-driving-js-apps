@@ -96,4 +96,20 @@ describe('tasks controller tests', function(){
 		var sorted = controller.sortTasks([task1, task2, task3]);
 		expect(sorted).to.be.eql([task1, task3, task2]);
 	});
+
+	it('updateTasks() should call sortTasks()', function(){
+
+		var tasksStub = [ {sample: 1} ];
+
+		// A mock of sortTasks()...
+		controller.sortTasks = function(tasks){
+			expect(tasks).to.be.eql(tasksStub);
+			// A truly bogus sorted tasks array...
+			return '..sorted..';
+		}
+
+		controller.updateTasks(tasksStub);
+
+		expect(controller.tasks).to.be.eql('..sorted..');
+	});
 });
