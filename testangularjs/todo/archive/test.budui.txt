@@ -1,0 +1,77 @@
+
+> todo@0.0.0 test c:\Users\john.DCLABNT\projects\js\subramaniam-test-driving-js-apps\testangularjs\todo
+> mocha --watch --recursive test/server
+
+
+[?25l
+
+  validate task tests
+    √ should return true for valid task
+    √ should return false for undefined task
+    √ should return false for null task
+    √ should return false for undefined name
+    √ should return false for null name
+    √ should return false for empty name
+    √ should return false for undefined month
+    √ should return false for null month
+    √ should return false for non number month
+    √ should return false for undefined day
+    √ should return false for null day
+    √ should return false for non number day
+    √ should return false for undefined year
+    √ should return false for null year
+    √ should return false for non number year
+
+  db tests
+    √ should pass this canary test
+    √ get should return null connection by default
+    √ close should set connection to null
+    √ close should close existing connection
+    √ connect should set connection given valid database name (429ms)
+    √ connect should reject invalid schema
+    √ connect should reject invalid name
+
+  task model tests
+    √ all should return all the tasks
+    √ get should return task with given id
+    √ get should return null for non-existing task
+    √ add should return null for valid task
+    √ add should return Error if task already exists
+    √ task.validate should refer to validateTask
+    √ add should call validate
+    √ add should handle validation failure
+    √ delete should send null after deleting existing task
+    √ delete should return Error if task not found
+    √ delete should return Error if task id not given
+
+  tasks routes tests
+    √ should register URI / for get
+sandbox.stub(obj, 'meth', val) is deprecated and will be removed from the public API in a future version of sinon.
+ Use sandbox.stub(obj, 'meth').callsFake(fn) instead in order to stub a function.
+ Use sandbox.stub(obj, 'meth').value(fn) instead in order to stub a non-function value.
+sinon.stub(obj, 'meth', fn) is deprecated and will be removed from the public API in a future version of sinon.
+ Use stub(obj, 'meth').callsFake(fn).
+ Codemod available at https://github.com/hurrymaplelad/sinon-codemod
+    √ get / handler should call model's all & returns result
+    √ should register URI /:id for get
+sandbox.stub(obj, 'meth', val) is deprecated and will be removed from the public API in a future version of sinon.
+ Use sandbox.stub(obj, 'meth').callsFake(fn) instead in order to stub a function.
+ Use sandbox.stub(obj, 'meth').value(fn) instead in order to stub a non-function value.
+sinon.stub(obj, 'meth', fn) is deprecated and will be removed from the public API in a future version of sinon.
+ Use stub(obj, 'meth').callsFake(fn).
+ Codemod available at https://github.com/hurrymaplelad/sinon-codemod
+    √ get /:validid handler should call model's get & returns a task
+sandbox.stub(obj, 'meth', val) is deprecated and will be removed from the public API in a future version of sinon.
+ Use sandbox.stub(obj, 'meth').callsFake(fn) instead in order to stub a function.
+ Use sandbox.stub(obj, 'meth').value(fn) instead in order to stub a non-function value.
+sinon.stub(obj, 'meth', fn) is deprecated and will be removed from the public API in a future version of sinon.
+ Use stub(obj, 'meth').callsFake(fn).
+ Codemod available at https://github.com/hurrymaplelad/sinon-codemod
+    √ get /:invalidid handler should call model's get & returns {}
+    √ should register URI / for post
+sandbox.stub(obj, 'meth', val) is deprecated and will be removed from the public API in a future version of sinon.
+ Use sandbox.stub(obj, 'meth').callsFake(fn) instead in order to stub a function.
+ Use sandbox.stub(obj, 'meth').value(fn) instead in order to stub a non-function value.
+sinon.stub(obj, 'meth', fn) is deprecated and will be removed from the public API in a future version of sinon.
+ Use stub(obj, 'meth').callsFake(fn).
+ Codemod available at https://github.com/hur
